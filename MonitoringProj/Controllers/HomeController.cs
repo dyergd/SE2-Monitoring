@@ -2,6 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using MonitoringProj.Models;
 
+/// <summary>
+/// TEST OF GITIGNORE
+/// sdfsdfsdf
+/// </summary>
+/// 
+
+
+//SEXY
+//BEAST
+
+
+
+
+
 namespace MonitoringProj.Controllers
 {
     public class HomeController : Controller

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,8 +8,9 @@ namespace MonitoringProj
 {
     public class Visit
     {
+        [Key]
         public int Id { get; set; }
-        public string ip { get; set; }
+        public string Ip { get; set; }
         public DateTime Timestamp { get; set; }
         public string Origin { get; set; }
         public string DeviceSource { get; set; }

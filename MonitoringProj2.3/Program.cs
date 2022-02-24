@@ -16,7 +16,7 @@ namespace MonitoringProj2._3
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            await SeedDataAsync(host);
+            //await SeedDataAsync(host);
             host.Run();
         }
 

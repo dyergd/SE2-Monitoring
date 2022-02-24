@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mcsap\\Desktop\\team6minus1-team6minus1_monitoringproj-3a4ec6a4b563\\MonitoringProj2.3\\MonitoringProj2.3.csproj": {}
+    "C:\\Users\\angry\\source\\repos\\team6minus1_monitoringproj\\MonitoringProj2.3\\MonitoringProj2.3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mcsap\\Desktop\\team6minus1-team6minus1_monitoringproj-3a4ec6a4b563\\MonitoringProj2.3\\MonitoringProj2.3.csproj": {
+    "C:\\Users\\angry\\source\\repos\\team6minus1_monitoringproj\\MonitoringProj2.3\\MonitoringProj2.3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mcsap\\Desktop\\team6minus1-team6minus1_monitoringproj-3a4ec6a4b563\\MonitoringProj2.3\\MonitoringProj2.3.csproj",
+        "projectUniqueName": "C:\\Users\\angry\\source\\repos\\team6minus1_monitoringproj\\MonitoringProj2.3\\MonitoringProj2.3.csproj",
         "projectName": "MonitoringProj2.3",
-        "projectPath": "C:\\Users\\mcsap\\Desktop\\team6minus1-team6minus1_monitoringproj-3a4ec6a4b563\\MonitoringProj2.3\\MonitoringProj2.3.csproj",
-        "packagesPath": "C:\\Users\\mcsap\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mcsap\\Desktop\\team6minus1-team6minus1_monitoringproj-3a4ec6a4b563\\MonitoringProj2.3\\obj\\",
+        "projectPath": "C:\\Users\\angry\\source\\repos\\team6minus1_monitoringproj\\MonitoringProj2.3\\MonitoringProj2.3.csproj",
+        "packagesPath": "C:\\Users\\angry\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\angry\\source\\repos\\team6minus1_monitoringproj\\MonitoringProj2.3\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\mcsap\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\angry\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

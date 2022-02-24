@@ -14,7 +14,7 @@ namespace MonitoringProj2._3.Services
 
         public Intializer(ApplicationDbContext db, UserManager<ApplicationUser> userManager)
         {
-            //RoleManager<IdentityRole> roleManager
+            
             _db = db;
             _userManager = userManager;
             //_roleManager = roleManager;

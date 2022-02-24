@@ -5,9 +5,9 @@ namespace MonitoringProj2._3.Models.ViewModels
     [DataContract]
     public class ItemQuantityVM
     {
-        [DataMember(Name = "Item")]
+        [DataMember]
         public string Item { get; set; }
-        [DataMember(Name = "Quantity")]
+        [DataMember]
         public int Quantity { get; set; }
     }
 }

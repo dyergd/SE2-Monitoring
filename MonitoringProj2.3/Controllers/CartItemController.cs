@@ -66,14 +66,18 @@ namespace MonitoringProj2._3.Controllers
                         Quantity = i.Quantity,
                     });
 
-                    List<ItemQuantityVM> cartItems = new List<ItemQuantityVM>();
+                    List<string> cartItems = new List<string>();
+                    List<int> itemQuantity = new List<int>();
+
 
                     foreach (var i in model)
                     {
-                        cartItems.Add(i);
+                        cartItems.Add(i.Item);
+                        itemQuantity.Add(i.Quantity);
                     }
 
-                    ViewBag.ItemQuantityVM = JsonConvert.SerializeObject(cartItems);
+                    ViewBag.ItemQuantity = itemQuantity;
+                    ViewBag.CartItems = cartItems;
                 }
             }
 

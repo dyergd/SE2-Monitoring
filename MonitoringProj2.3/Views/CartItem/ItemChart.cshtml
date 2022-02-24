@@ -15,6 +15,9 @@
 	<div id="chartContainer"></div>
  
 	<script type="text/javascript">
+
+		var itemList = @Html.Raw(Json.Serialize(ViewBag.CartItems));
+		var quantityList = @Html.Raw(Json.Serialize(ViewBag.ItemQuantity));
  
 		window.onload = function () {
 			var chart = new CanvasJS.Chart("chartContainer", {
@@ -23,11 +26,18 @@
 				title: {
 					text: "Item Quantity Sold"
 				},
+				axisX:{
+					title: "Items"
+				},
+				axisY:{
+					title: "Quantity Sold"
+				},
+
 				data: [
 				{
+					labels:itemList,
 					type: "column", //change type to bar, line, area, pie, etc
-                                        //Uncomment below line to add data coming from the controller.
-					dataPoints: @Html.Raw(ViewBag.ItemQuantityVM),
+                    data: quantityList					
 				}
 				]
 			});

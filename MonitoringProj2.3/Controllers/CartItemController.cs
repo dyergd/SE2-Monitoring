@@ -1,105 +1,83 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MonitoringProj2._3.Data;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using MonitoringProj2._3.Models.ViewModels;
 
 namespace MonitoringProj2._3.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CartItemController : Controller
-    {       
-            private readonly ApplicationDbContext _context;
+    {
+        public async Task<IActionResult> Index()
+        {
+            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
+            IEnumerable<CartItem> model = null;
 
-            public CartItemController(ApplicationDbContext context)
+            using (HttpClient client = new HttpClient())
             {
-                _context = context;
-            }
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-            // GET: api/cart_item
-            [HttpGet]
-            public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems()
-            {
-                return await _context.CartItems.ToListAsync();
-            }
-
-            // GET: api/cart_item/5
-            [HttpGet("{id}")]
-            public async Task<ActionResult<CartItem>> Getcart_item(int id)
-            {
-                var cart_item = await _context.CartItems.FindAsync(id);
-
-                if (cart_item == null)
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
                 {
-                    return NotFound();
-                }
-
-                return cart_item;
-            }
-
-            // PUT: api/cart_item/5
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPut("{id}")]
-            public async Task<IActionResult> Putcart_item(int id, CartItem cart_item)
-            {
-                if (id != cart_item.Id)
-                {
-                    return BadRequest();
-                }
-
-                _context.Entry(cart_item).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!cart_itemExists(id))
+                    var data = await response.Content.ReadAsStringAsync();
+                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
+                    model = obj.Select(i => new CartItem
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                        Id = i.Id,
+                        Item = i.Item,
+                        Timestamp = i.Timestamp,
+                        CartId = i.CartId,
+                        Cart = i.Cart,
+                        Quantity = i.Quantity,
+                        Cost = i.Cost,
+                        Removed = i.Removed
+
+                    });
                 }
-
-                return NoContent();
             }
-
-            // POST: api/cart_item
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPost]
-            public async Task<ActionResult<CartItem>> Postcart_item(CartItem cart_item)
-            {
-                _context.CartItems.Add(cart_item);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("Getcart_item", new { id = cart_item.Id }, cart_item);
-            }
-
-            // DELETE: api/cart_item/5
-            [HttpDelete("{id}")]
-            public async Task<IActionResult> Deletecart_item(int id)
-            {
-                var cart_item = await _context.CartItems.FindAsync(id);
-                if (cart_item == null)
-                {
-                    return NotFound();
-                }
-
-                _context.CartItems.Remove(cart_item);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-
-            private bool cart_itemExists(int id)
-            {
-                return _context.CartItems.Any(e => e.Id == id);
-            }
+            return View(model);
         }
+
+        public async Task<IActionResult> ItemChart()
+        {
+            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
+            IEnumerable<ItemQuantityVM> model = null;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
+                    model = obj.Select(i => new ItemQuantityVM
+                    {
+                        Item = i.Item,
+                        Quantity = i.Quantity,
+                    });
+
+                    List<ItemQuantityVM> cartItems = new List<ItemQuantityVM>();
+
+                    foreach (var i in model)
+                    {
+                        cartItems.Add(i);
+                    }
+
+                    ViewBag.ItemQuantityVM = JsonConvert.SerializeObject(cartItems);
+                }
+            }
+
+            return View();
+        }
+    }
 }

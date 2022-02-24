@@ -75,14 +75,14 @@ DELETE FROM dbo.VISITRESPONSES;
 DELETE FROM dbo.CARTS
 
 SET IDENTITY_INSERT dbo.CARTS ON;
-INSERT INTO dbo.CARTS ([Id], [Timestamp], [VisitId], [Purchased], [PunchTimestamp])
+INSERT INTO dbo.CARTS ([Id], [Timestamp], [VisitId], [Purchased], [PunchTimestamp], [Items])
 VALUES
 (1,'2015-06-23 04:30:21', 1,  1, '2015-06-23 04:30:21'),
 (2,'2015-06-23 04:30:21', 2,  1, '2015-06-23 04:30:21'),
-(3,'2015-06-23 04:30:21', 3,  0, NULL),
-(4,'2015-06-23 04:30:21', 4,  0, NULL),
+(3,'2015-06-23 04:30:21', 3,  0, '2015-06-23 04:30:21'),
+(4,'2015-06-23 04:30:21', 4,  0, '2015-06-23 04:30:21'),
 (5,'2015-06-23 04:30:21', 5,  1, '2015-06-23 04:30:21'),
-(6,'2015-06-23 04:30:21', 6,  0, NULL);
+(6,'2015-06-23 04:30:21', 6,  0, '2015-06-23 04:30:21');
 
 SELECT * FROM dbo.CARTS
 

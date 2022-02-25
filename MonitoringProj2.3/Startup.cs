@@ -35,9 +35,9 @@ namespace MonitoringProj2._3
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserManager<UserManager<ApplicationUser>>();
-               // .AddRoles<IdentityRole>();
 
             services.AddControllersWithViews();
             services.AddScoped<IUserRepository, DbApplicationUserRepository>();    

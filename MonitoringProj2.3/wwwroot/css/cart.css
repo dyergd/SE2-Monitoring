@@ -1,0 +1,23 @@
+﻿
+/*Search Bar*/
+#search {
+    width: 400px;
+}
+
+/*Return Boxes*/
+.float-child {
+    display: inline-block;
+    position: relative;
+    margin: 1%;
+    width: 25%;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 25%);
+    border-radius: 10px;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+}
+

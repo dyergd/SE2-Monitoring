@@ -613,7 +613,6 @@ C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\bin\Debu
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.csproj.AssemblyReference.cache
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.AssemblyInfoInputs.cache
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.AssemblyInfo.cs
@@ -633,9 +632,8 @@ C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debu
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
-C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Home\CartAnalysis.cshtml.g.cs
+C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Home\Cart.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\14235\Desktop\SE2\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs

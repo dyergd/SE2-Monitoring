@@ -11,6 +11,7 @@ namespace MonitoringProj2._3
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Cart Id")]
         public int CartId { get; set; }
         public Cart Cart { get; set; }
         public string Item { get; set; }

@@ -487,5 +487,6 @@ C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Deb
 C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.pdb
 C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\MonitoringProj2.3.genruntimeconfig.cache
 C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\Cart\Index.cshtml.g.cs
-C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\CartItem\Index.cshtml.g.cs
 C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\CartItem\ItemChart.cshtml.g.cs
+C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\CartItem\Index.cshtml.g.cs
+C:\Users\angry\source\repos\team6minus1_monitoringproj\MonitoringProj2.3\obj\Debug\net5.0\Razor\Views\CartItem\ItemFrequency.cshtml.g.cs

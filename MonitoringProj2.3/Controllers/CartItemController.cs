@@ -6,48 +6,25 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MonitoringProj2._3.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using MonitoringProj2._3.Services;
 
 namespace MonitoringProj2._3.Controllers
 {
     public class CartItemController : Controller
     {
+        APICartItemRepository cartItemRepository = new APICartItemRepository();
+
         public async Task<IActionResult> Index()
         {
-            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
-            IEnumerable<CartItem> model = null;
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
-                    model = obj.Select(i => new CartItem
-                    {
-                        Id = i.Id,
-                        Item = i.Item,
-                        Timestamp = i.Timestamp,
-                        CartId = i.CartId,
-                        Cart = i.Cart,
-                        Quantity = i.Quantity,
-                        Cost = i.Cost,
-                        Removed = i.Removed
-
-                    });
-                }
-            }
+            var model = await cartItemRepository.ReadAllAsync();
             return View(model);
         }
 
         public async Task<IActionResult> ItemChart()
         {
             string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
-            IEnumerable<ItemQuantityVM> model = null;
+            IEnumerable<InventoryVM> model = null;
 
             using (HttpClient client = new HttpClient())
             {
@@ -60,7 +37,7 @@ namespace MonitoringProj2._3.Controllers
                 {
                     var data = await response.Content.ReadAsStringAsync();
                     var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
-                    model = obj.Select(i => new ItemQuantityVM
+                    model = obj.Select(i => new InventoryVM
                     {
                         Item = i.Item,
                         Quantity = i.Quantity,
@@ -83,5 +60,36 @@ namespace MonitoringProj2._3.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> ItemFrequency()
+        {
+            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
+            IEnumerable<InventoryVM> model = null;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
+                    model = obj.Select(i => new InventoryVM
+                    {
+                        Item = i.Item,
+                        Timestamp = i.Timestamp,
+                        Quantity = i.Quantity,
+                        Cost = i.Cost,
+                        TotalCost = i.Cost * i.Quantity
+                    });
+
+                }
+            }
+            return View(model);
+        }
+
     }
 }

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 
-namespace MonitoringProj2._3
+namespace MonitoringProj2._3.Models.ViewModels
 {
-    public class CartItem
+    public class InventoryVM
     {
-        [Key]
         public int Id { get; set; }
         [Display(Name = "Cart Id")]
         public int CartId { get; set; }
@@ -19,6 +15,7 @@ namespace MonitoringProj2._3
         public int Quantity { get; set; }
         public bool Removed { get; set; }
         public decimal Cost { get; set; }
-
+        [Display(Name = "Total Cost")]
+        public decimal TotalCost { get; set; }
     }
 }

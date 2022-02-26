@@ -1,105 +1,95 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MonitoringProj2._3.Data;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using MonitoringProj2._3.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using MonitoringProj2._3.Services;
 
 namespace MonitoringProj2._3.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class CartItemController : Controller
-    {       
-            private readonly ApplicationDbContext _context;
+    {
+        APICartItemRepository cartItemRepository = new APICartItemRepository();
 
-            public CartItemController(ApplicationDbContext context)
-            {
-                _context = context;
-            }
-
-            // GET: api/cart_item
-            [HttpGet]
-            public async Task<ActionResult<IEnumerable<CartItem>>> GetCartItems()
-            {
-                return await _context.CartItems.ToListAsync();
-            }
-
-            // GET: api/cart_item/5
-            [HttpGet("{id}")]
-            public async Task<ActionResult<CartItem>> Getcart_item(int id)
-            {
-                var cart_item = await _context.CartItems.FindAsync(id);
-
-                if (cart_item == null)
-                {
-                    return NotFound();
-                }
-
-                return cart_item;
-            }
-
-            // PUT: api/cart_item/5
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPut("{id}")]
-            public async Task<IActionResult> Putcart_item(int id, CartItem cart_item)
-            {
-                if (id != cart_item.Id)
-                {
-                    return BadRequest();
-                }
-
-                _context.Entry(cart_item).State = EntityState.Modified;
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!cart_itemExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return NoContent();
-            }
-
-            // POST: api/cart_item
-            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-            [HttpPost]
-            public async Task<ActionResult<CartItem>> Postcart_item(CartItem cart_item)
-            {
-                _context.CartItems.Add(cart_item);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("Getcart_item", new { id = cart_item.Id }, cart_item);
-            }
-
-            // DELETE: api/cart_item/5
-            [HttpDelete("{id}")]
-            public async Task<IActionResult> Deletecart_item(int id)
-            {
-                var cart_item = await _context.CartItems.FindAsync(id);
-                if (cart_item == null)
-                {
-                    return NotFound();
-                }
-
-                _context.CartItems.Remove(cart_item);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-
-            private bool cart_itemExists(int id)
-            {
-                return _context.CartItems.Any(e => e.Id == id);
-            }
+        public async Task<IActionResult> Index()
+        {
+            var model = await cartItemRepository.ReadAllAsync();
+            return View(model);
         }
+
+        public async Task<IActionResult> ItemChart() //may not implement
+        {
+            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
+            IEnumerable<InventoryVM> model = null;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
+                    model = obj.Select(i => new InventoryVM
+                    {
+                        Item = i.Item,
+                        Quantity = i.Quantity,
+                    });
+
+                    List<string> cartItems = new List<string>();
+                    List<int> itemQuantity = new List<int>();
+
+
+                    foreach (var i in model)
+                    {
+                        cartItems.Add(i.Item);
+                        itemQuantity.Add(i.Quantity);
+                    }
+
+                    ViewBag.ItemQuantity = itemQuantity;
+                    ViewBag.CartItems = cartItems;
+                }
+            }
+
+            return View();
+        }
+
+        public async Task<IActionResult> ItemFrequency() //may not implement
+        {
+            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
+            IEnumerable<InventoryVM> model = null;
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
+                    model = obj.Select(i => new InventoryVM
+                    {
+                        Item = i.Item,
+                        Timestamp = i.Timestamp,
+                        Quantity = i.Quantity,
+                        Cost = i.Cost,
+                        TotalCost = i.Cost * i.Quantity
+                    });
+
+                }
+            }
+            return View(model);
+        }
+
+    }
 }

@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+ 
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<title>Index</title>
+</head>
+<body>
+	<div id="chartContainer"></div>
+ 
+	<script type="text/javascript">
+
+		var itemList = @Html.Raw(Json.Serialize(ViewBag.CartItems));
+		var quantityList = @Html.Raw(Json.Serialize(ViewBag.ItemQuantity));
+ 
+		window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light2",
+				animationEnabled: true,
+				title: {
+					text: "Item Quantity Sold"
+				},
+				axisX:{
+					title: "Items"
+				},
+				axisY:{
+					title: "Quantity Sold"
+				},
+
+				data: [
+				{
+					labels:itemList,
+					type: "column", //change type to bar, line, area, pie, etc
+                    data: quantityList					
+				}
+				]
+			});
+			chart.render();
+		};
+	</script>
+ 
+</body>
+</html>			

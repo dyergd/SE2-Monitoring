@@ -50,6 +50,7 @@ artifacts/
 .dotnet/
 
 # Files built by Visual Studio
+*cshtml.g.cs
 *_i.c
 *_p.c
 *_i.h

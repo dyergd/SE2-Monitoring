@@ -21,7 +21,7 @@ namespace MonitoringProj2._3.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ItemChart()
+        public async Task<IActionResult> ItemChart() //may not implement
         {
             string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
             IEnumerable<InventoryVM> model = null;
@@ -61,7 +61,7 @@ namespace MonitoringProj2._3.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ItemFrequency()
+        public async Task<IActionResult> ItemFrequency() //may not implement
         {
             string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
             IEnumerable<InventoryVM> model = null;

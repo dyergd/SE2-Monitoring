@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace MonitoringProj2._3
 {
+    /// <summary>
+    /// The Visit class represents a Visit entity within our database
+    /// </summary>
     public class Visit
     {
         [Key]
-        public int Id { get; set; }
-        public string Ip { get; set; }
-        public DateTime Timestamp { get; set; }
-        public string Origin { get; set; }
-        public string DeviceSource { get; set; }
-        //public int CookieId { get; set; }
-        //public List<cart> Carts { get; set; }
-        //public List<visit_clicks> Clicks { get; set; }
+        public int Id { get; set; }//The ID of the Visit entity
+        public string Ip { get; set; }//The IP address of the visit in question
+        public DateTime Timestamp { get; set; }//The timestamp of the visit
+        public string DeviceSource { get; set; }//The device source for the visit
+
     }
 }

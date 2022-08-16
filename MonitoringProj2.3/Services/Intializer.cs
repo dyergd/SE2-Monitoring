@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MonitoringProj2._3.Services
 {
+    /// <summary>
+    /// Seeding class for Admin User
+    /// </summary>
     public class Intializer
     {
         private readonly ApplicationDbContext _db;
@@ -33,14 +36,14 @@ namespace MonitoringProj2._3.Services
             {
                 await _roleManager.CreateAsync(new IdentityRole { Name = "User" });
             }
-            if (!_db.Users.Any(u => u.UserName == "admin@test.com"))
+            if (!_db.Users.Any(u => u.UserName == "theverybestadmin@test.com"))
             {
                 var user = new ApplicationUser
                 {
                     Email = "admin@test.com",
                     UserName = "admin@test.com",
                 };
-                await _userManager.CreateAsync(user, "Pass1!");
+                await _userManager.CreateAsync(user, "HG:}T)YCJ}hp2$x<+;S.");
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
 

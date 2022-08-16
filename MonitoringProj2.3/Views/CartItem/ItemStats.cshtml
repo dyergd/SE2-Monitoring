@@ -1,0 +1,74 @@
+﻿@model IEnumerable<MonitoringProj2._3.Models.ViewModels.ItemAverageVM>
+
+@{
+    ViewData["Title"] = "ItemStats";
+}
+
+<h1>Item Stats</h1>
+<form asp-controller="CartItem" asp-action="ItemStats">
+    <p>
+        Item name: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<p>Search for a specfic item to get started. i.e. Dog</p>
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Average)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HighPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LowPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DayOfWeek)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Month)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalSold)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Average)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HighPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LowPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DayOfWeek)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Month)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalSold)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

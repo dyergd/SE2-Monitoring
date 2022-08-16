@@ -2,15 +2,18 @@
 
 namespace Identity.Models
 {
+    /// <summary>
+    /// RoleModification allows us to retrieve and modify Role values
+    /// </summary>
     public class RoleModification
     {
         [Required]
-        public string RoleName { get; set; }
+        public string RoleName { get; set; }//The name of the Role
 
-        public string RoleId { get; set; }
+        public string RoleId { get; set; }//The ID of the Role
 
-        public string[] AddIds { get; set; }
+        public string[] AddIds { get; set; }//The additions to the Role
 
-        public string[] DeleteIds { get; set; }
+        public string[] DeleteIds { get; set; }//The deletions from the Role
     }
 }

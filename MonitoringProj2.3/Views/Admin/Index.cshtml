@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Admin Suite</h1>
+
+<div class="container">
+    <div class="row align-items-start">
+
+        <div class="col">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded text-center" style="width: 18rem;">
+                <img src="~/Images/AdminIndex/role.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Role Configuration</h5>
+                    <a href="~/role" class="btn btn-primary">Configure Roles</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded text-center" style="width: 18rem;">
+                <img src="~/Images/AdminIndex/userlist.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">User List</h5>
+                    <a href="~/role/userlistofroles" class="btn btn-primary">View User List</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow-sm p-3 mb-5 bg-body rounded text-center" style="width: 24rem;">
+                <img src="~/Images/AdminIndex/contentmanagement.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Content Management</h5>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div>
+                                Deactivate:
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div>
+                                Activate:
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (TempData.Peek("SalesMonitoring").Equals(true))
+                        {
+                            <a href="~/Admin/SalesMonDeactivate" class="btn btn-primary ">Sales Monitoring</a>
+                            <a href="~/Admin/SalesMonActivate" class="btn btn-primary disabled">Sales Monitoring</a>
+                        }
+                        else
+                        {
+                            <a href="~/Admin/SalesMonDeactivate" class="btn btn-primary disabled">Sales Monitoring</a>
+                            <a href="~/Admin/SalesMonActivate" class="btn btn-primary ">Sales Monitoring</a>
+                        }
+                    </div>
+                    <div>
+                        @if (TempData.Peek("ItemStats").Equals(true))
+                        {
+                            <a href="~/Admin/ItemStatsDeactivate" class="btn btn-primary ">Item Stats</a>
+                            <a href="~/Admin/ItemStatsActivate" class="btn btn-primary disabled">Item Stats</a>
+                        }
+                        else
+                        {
+                            <a href="~/Admin/ItemStatsDeactivate" class="btn btn-primary disabled">Item Stats</a>
+                            <a href="~/Admin/ItemStatsActivate" class="btn btn-primary ">Item Stats</a>
+                        }
+                    </div>
+                    <div>
+                        @if (TempData.Peek("VisitMonitoring").Equals(true))
+                        {
+                            <a href="~/Admin/VisitMonitoringDeactivate" class="btn btn-primary ">Visit Monitoring</a>
+                            <a href="~/Admin/VisitMonitoringActivate" class="btn btn-primary disabled">Visit Monitoring</a>
+                        }
+                        else
+                        {
+                            <a href="~/Admin/VisitMonitoringDeactivate" class="btn btn-primary disabled">Visit Monitoring</a>
+                            <a href="~/Admin/VisitMonitoringActivate" class="btn btn-primary ">Visit Monitoring</a>
+                        }
+                    </div>
+                    <div>
+                        @if (TempData.Peek("CartMonitoring").Equals(true))
+                        {
+                            <a href="~/Admin/CartMonitoringDeactivate" class="btn btn-primary ">Cart Monitoring</a>
+                            <a href="~/Admin/CartMonitoringActivate" class="btn btn-primary disabled">Cart Monitoring</a>
+                        }
+                        else
+                        {
+                            <a href="~/Admin/CartMonitoringDeactivate" class="btn btn-primary disabled">Cart Monitoring</a>
+                            <a href="~/Admin/CartMonitoringActivate" class="btn btn-primary ">Cart Monitoring</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

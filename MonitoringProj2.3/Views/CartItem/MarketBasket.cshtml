@@ -1,0 +1,431 @@
+﻿@model IEnumerable<MonitoringProj2._3.Models.ViewModels.InventoryVM>
+
+@{
+    ViewBag.Title = "Market Basket Page";
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    Sydni Ward
+    2/25/2022
+*@
+
+@*
+    HTML
+*@
+<head>
+    <link rel="stylesheet" href="~/css/marketBasket.css" />
+</head>
+<div style="text-align: center;">
+    <h3>Shopping Cart Analysis</h3>
+    <div id="searchWrapper">
+       
+            <input type="text" id="search" name="item" placeholder="Item..." list="itemslist" value=""> 
+            <button onclick="setSearchedItem()">Find</button>
+        
+        <div class="searchlist">
+            <ul id="sortedList" style="list-style-type:none;"></ul>
+        </div>
+    </div>
+
+    <div class="float-container">
+        <ul id="topthree" style="list-style-type:none;"></ul>
+    </div>
+    <br/>
+    <div class="float-container">
+        <p style="color: red;">*** If lift is less than 1, there is not enough data to  support the connection between the items. ***</p>
+        <p style="color: red;">*** Support and Confidence is ideal at 50% or above ***</p>
+    </div>
+
+</div>
+
+@*
+    Javascript
+*@
+
+<script type="text/javascript">
+    var hpitems = [];
+    const sortedList = document.getElementById('sortedList');
+    const topthree = document.getElementById('topthree');
+    const search= document.getElementById('search');
+    var itemslist = []; // hold the names of the items
+    var xCartList = []; // hold all cart ids where search occurs, do not allow duplicateds
+    var results = []; // hold results;
+    let TC; //hold Total of carts
+    let TC_X; //hold Total of carts where x occurs
+    var TC_Y = []; //hold Total of carts where y occurs
+    var TC_XY = []; //hold Total of carts where both x and y occur
+    let searcheditem;
+
+
+    //////////////////////////////////////////////////  Load Data ////////////////////////////////////////////////////////
+    
+    //event listener
+    search.addEventListener('keyup', (e) => {
+        hpitems = @Html.Raw(ViewBag.model);
+        
+        loaditems(e.target.value);
+    });
+
+    //load items
+    const loaditems = async (e) => {
+        getItemslist();
+        // get filtered list 
+        const searchString = e.toLowerCase();
+
+        const filteredItems = itemslist.filter((item) => {
+            return (
+                item.toLowerCase().includes(searchString) 
+            );
+        });
+        if (searcheditem == null){
+            sortedList.innerHTML = [];
+        }
+        else{
+            for(i=0; i <= filteredItems.length - 1; i++){
+                if ( i >= 3 ){
+                    filteredItems.splice(i, 1);
+                    i--
+                }
+            }
+             displaydropdown(filteredItems);
+        }
+        
+    };
+
+    function getItemslist(){
+        // get itemslist of unique Items
+        itemslist = [];
+        hpitems = @Html.Raw(ViewBag.model);
+
+        for(i=0; i <= hpitems.length - 1; i++){
+            itemslist.push(hpitems[i].Item);
+        }
+        RemoveDuplicates();
+        console.log(itemslist);
+    }
+
+    //Create list of grouped items
+    function RemoveDuplicates (){
+        itemslist = [...new Set(itemslist)];
+    };
+
+    window.onload = (event) => {
+      var url = window.location.href;
+      searcheditem =  url.substring(url.indexOf('=') + 1);
+      console.log(searcheditem);
+      
+      if(searcheditem.includes("http")){
+          // do nothing
+      }
+      else{
+            if(searcheditem.includes("%20")){
+                searcheditem = searcheditem.replace("%20", " ");
+            }
+            search.value = searcheditem;
+            getItemslist();
+            processcartitems();
+      }
+    };
+
+    /////////////////////////////////////////// Display Content below ////////////////////////////////////////
+    
+    //display items in drop down
+    const displaydropdown = (items) => {
+    const htmlItemString = items
+        .map((items) => {
+            return `<li class="items">
+                        <a href="?item=${items}">${items}</a>
+                    </li>
+        `;
+        })
+        .join('');
+         
+        sortedList.innerHTML = htmlItemString;
+    };
+
+    // Display result
+    const displayTopThree = (items) => {
+    const htmlString = items
+    .map((itemscount) => {
+        return `
+            <div class="float-child" style="text-align:center;">
+                <ul style="list-style-type:none; text-align:center; padding:25px;">
+                    <li class="items">
+                        <h4>${itemscount.item}</h4>
+                        <p>Support Percent: ${itemscount.support}%</p>
+                        <p>Confidence Percent: ${itemscount.confidence}%</p>
+                        <p>Lift: ${itemscount.lift}</p>
+                    </li>
+                </ul>
+            </div>
+    `;
+    })
+    .join('');
+    topthree.innerHTML = htmlString;
+    };
+
+    ////////////////////////////////////////////////////   DATA PREP BELOW AFTER SEARCH   //////////////////////////////////////////////////
+    
+    // Get all cartId and add to a list, do not allow duplicates
+    function getTC()
+    {
+        var cartList = [];
+
+        for(i=0; i <= hpitems.length - 1; i++){
+            cartList.push(hpitems[i].CartId);
+        } 
+         cartList = [...new Set(cartList)];
+
+         TC = getCount(cartList);
+    }
+
+    // Get cartid's where x exist and add to a list, do not allow duplicates
+    // get count of carts where x exists
+    function getTC_X()
+    {
+        for(i=0; i <= hpitems.length - 1; i++){
+            if (hpitems[i].Item == searcheditem){
+                 xCartList.push(hpitems[i].CartId);
+            }
+        } 
+         xCartList = [...new Set(xCartList)];
+
+         TC_X = getCount(xCartList);
+    }
+
+     // get count of carts where y exists
+    function getTC_Y() {
+        var count;
+        var cartIds = [];
+
+        TC_Y = duplicateList(results);
+
+        for(i=0; i <= TC_Y.length - 1; i++){
+            for(k=0; k <= hpitems.length - 1; k++){
+                if (hpitems[k].Item == TC_Y[i][0]){
+                    cartIds.push(hpitems[k].CartId);
+                }
+            }
+            cartIds = [...new Set(cartIds)];
+            count = getCount(cartIds)
+            TC_Y[i][1] = count;
+            cartIds = [];
+        }
+    }
+
+    // get count of carts where x and y exists
+    function getTC_XY() {
+        var yCartId = []; 
+        var count = 0;
+        var hpItems_Edited = duplicateList(hpitems);
+        TC_XY = duplicateList(results);
+
+        hpItems_Edited = removeNotxCartList ( hpItems_Edited );
+
+        for(i=0; i <= TC_XY.length - 1; i++){
+            for(k=0; k <= hpItems_Edited.length - 1; k++){
+                if (hpItems_Edited[k].Item == TC_XY[i][0])
+                {
+                    yCartId.push(hpItems_Edited[k].CartId);
+                }
+            }
+            yCartId = [...new Set(yCartId)];
+            count = getCount(yCartId)
+            TC_XY[i][1] = TC_XY[i][1] + count;
+            yCartId = [];
+        }
+    }
+
+    //remove hpitems where cartid not equal to xCartList
+    function removeNotxCartList (list)
+    {
+        var list2 = [];
+        for(i=0; i <= xCartList.length; i++){
+            for(k=0; k <= list.length - 1; k++)
+            {
+                if (list[k].CartId == xCartList[i])
+                {
+                    list2.push(list[k]);
+                }
+            }
+        }
+        
+        return list2;
+    }
+
+
+   // Get list of items and remove x from list
+    function getItems(){
+        comparableslist();
+
+        // remove Item equaled to search value
+        for(i=0; i <= results.length - 1; i++){
+            if ( results[i][0].toString() == searcheditem )
+            {
+                results.splice(i, 1);
+                i--;
+            }
+        }
+    }
+    
+    // Duplicate a list and return the copy, Deep copy
+    function duplicateList(list)
+    {
+        var returnList = [];
+        returnList = JSON.parse(JSON.stringify(list));
+
+        return returnList;
+    }
+
+   // return the count of the list
+    function getCount(list){
+        return list.length;
+    }
+
+    //populate list with all comparables with its count
+    function comparableslist()
+    {
+        results = [];
+         for(i=0; i <= itemslist.length - 1; i++){
+               
+            results.push([itemslist[i],0]);
+        }
+        console.log(results);
+    }
+
+    //////////////////////////////////////////// MATH BELOW ////////////////////////////////////
+
+
+    /// Get support for each
+    function getSupport()
+    {
+        let support;
+        let top = 0;
+        for(i=0; i <= results.length - 1; i++){
+            for(k=0; k <= TC_XY.length - 1; k++){
+                if (results[i][0] == TC_XY[k][0])
+                {
+                    top = TC_XY[k][1];
+                    support = top/TC;
+                }
+                results[i][1] = support;
+            }
+        }
+
+    }
+
+    /// Get Confidence for each
+    function getConfidence()
+    {
+       let confidence;
+       for(i=0; i <= results.length - 1; i++){
+            for(k=0; k <= TC_XY.length - 1; k++){
+                if (results[i][0] == TC_XY[k][0])
+                {
+                    confidence = TC_XY[k][1]/TC_X;
+                }
+                results[i][2] = confidence;
+            }
+        }
+    }
+
+    /// Get Lift for each
+    function getLift()
+    {
+       let lift;
+       for(i=0; i <= results.length - 1; i++){
+            for(k=0; k <= TC_XY.length - 1; k++){
+                for (j=0; j <= TC_Y.length - 1; j++){
+                    if (results[i][0] == TC_XY[k][0] && results[i][0] == TC_Y[j][0])
+                    {
+                        lift = ( TC_XY[k][1] / ( TC_X + TC_XY[k][1] ) ) / ( TC_Y[j][1] / TC );
+                    }
+                    results[i][3] = lift;
+               }
+            }
+        }
+    }
+
+    function calcPercentages(){
+         // turn confidence and support to percentages
+         for(i = 0; i <= results.length-1; i++)
+        {
+            //support
+            results[i][1] = Math.round(results[i][1] * 100);
+            //confidence
+            results[i][2] = Math.round(results[i][2] * 100);
+            //lift
+            results[i][3] = results[i][3];
+            
+        }
+    }
+
+    /// Get the top 3 items corresponding to the searched Item
+    function getTopThree(){
+        var items = [];
+        results.sort(compareSecondColumn);
+        results.reverse();
+
+        //limit the return to max 3 items
+        for(i = 0; i <= results.length-1; i++){
+            if (i >= 3){
+                break;
+            }
+            else{
+                if (results[i][1] != 0 || results[i][2] != 0 || results[i][3] != 0 )
+                {
+                    items.push(results[i]);
+                }
+            }
+        }
+
+        items = items.map(function(elem){
+
+            return {"item":elem[0], "support":elem[1], "confidence":elem[2],"lift":elem[3] };
+        });
+
+        displayTopThree(items);
+    }
+
+    function compareSecondColumn(a, b) {
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] < b[1]) ? -1 : 1;
+        }
+    }
+
+    function setSearchedItem(){
+        searcheditem = search.value;
+        processcartitems();
+    }
+
+
+    /// Controller
+    function processcartitems(){
+        xCartList = []; // hold all cart ids where search occurs, do not allow duplicateds
+        results = []; // hold results;
+        TC; //hold Total of carts
+        TC_X; //hold Total of carts where x occurs
+        TC_Y = []; //hold Total of carts where y occurs
+        TC_XY = []; //hold Total of carts where both x and y occur
+        hpitems =[];
+        hpitems = @Html.Raw(ViewBag.model);
+        console.log(hpitems);
+        console.log(searcheditem);
+        
+        // Prep data
+        getItems();
+        getTC();
+        getTC_X();
+        getTC_Y();
+        getTC_XY();
+        //math
+        getSupport();
+        getConfidence();
+        getLift();
+        calcPercentages()
+        getTopThree();
+    } 
+</script>

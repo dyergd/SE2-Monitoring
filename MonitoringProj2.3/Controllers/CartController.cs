@@ -11,7 +11,7 @@ namespace MonitoringProj2._3.Controllers
     {
         public async Task<IActionResult> IndexAsync()
         {
-            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cart";
+            string apiUrl = "https://monitoringprojfix1.azurewebsites.net/api/cart";
             IEnumerable<Cart> model = null;
 
             using (HttpClient client = new HttpClient())
@@ -28,8 +28,8 @@ namespace MonitoringProj2._3.Controllers
                     model = obj.Select(i => new Cart
                     {
                         Id = i.Id, 
-                        Items = i.Items,    
-                        PunchTimestamp = i.Timestamp,
+                        Items = i.Items,
+                        Purch_timestamp = i.Timestamp,
                         Purchased = i.Purchased,
                         Timestamp = i.Timestamp,
                         Visit = i.Visit,

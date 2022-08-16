@@ -18,77 +18,53 @@ namespace MonitoringProj2._3.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await cartItemRepository.ReadAllAsync();
+            return View(model); 
+        }
+
+        public async Task<IActionResult> MarketBasket()
+        {
+            var model = await cartItemRepository.ReadAllAsync();
+            string json = JsonConvert.SerializeObject(model);
+            ViewBag.model = json;
             return View(model);
         }
 
-        public async Task<IActionResult> ItemChart() //may not implement
+        public async Task<IActionResult> ItemStats([FromForm]string SearchString) 
         {
-            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
-            IEnumerable<InventoryVM> model = null;
+            var model = await cartItemRepository.ItemDetails(SearchString);
+         
+            List<ItemAverageVM> itemAverageVMs = new List<ItemAverageVM>();
+            IEnumerable<ItemAverageVM> model2 = null;
+            ItemAverageVM ItemAverageobj = new ItemAverageVM();
 
-            using (HttpClient client = new HttpClient())
+            foreach (var j in model)
             {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                ItemAverageobj.Item = j.Item;
+                ItemAverageobj.CostList.Add(j.Cost);
+                ItemAverageobj.DateTimeList.Add(j.Timestamp);
+                ItemAverageobj.TotalSoldList.Add(j.Quantity);
 
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
+                ItemAverageobj.LowPrice = ItemAverageobj.CostList.Min();
+                ItemAverageobj.HighPrice = ItemAverageobj.CostList.Max();
+                ItemAverageobj.Average = ItemAverageobj.CostList.Average();
+                ItemAverageobj.Month = j.Timestamp.Month; //does not provide actual data needs more work
+                ItemAverageobj.TotalSold = ItemAverageobj.TotalSoldList.Sum();
+                if(j.Removed == true)
                 {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
-                    model = obj.Select(i => new InventoryVM
-                    {
-                        Item = i.Item,
-                        Quantity = i.Quantity,
-                    });
-
-                    List<string> cartItems = new List<string>();
-                    List<int> itemQuantity = new List<int>();
-
-
-                    foreach (var i in model)
-                    {
-                        cartItems.Add(i.Item);
-                        itemQuantity.Add(i.Quantity);
-                    }
-
-                    ViewBag.ItemQuantity = itemQuantity;
-                    ViewBag.CartItems = cartItems;
+                    ItemAverageobj.Removed++;
                 }
             }
 
+            itemAverageVMs.Add(ItemAverageobj);
+
+            model2 = itemAverageVMs;
+
+            return View(model2);
+        }
+
+        public async Task<IActionResult> TestMarketBasket()
+        {
             return View();
-        }
-
-        public async Task<IActionResult> ItemFrequency() //may not implement
-        {
-            string apiUrl = "https://monitoringproj20220224133719.azurewebsites.net/api/cartitem";
-            IEnumerable<InventoryVM> model = null;
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(apiUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = await response.Content.ReadAsStringAsync();
-                    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ICollection<CartItem>>(data);
-                    model = obj.Select(i => new InventoryVM
-                    {
-                        Item = i.Item,
-                        Timestamp = i.Timestamp,
-                        Quantity = i.Quantity,
-                        Cost = i.Cost,
-                        TotalCost = i.Cost * i.Quantity
-                    });
-
-                }
-            }
-            return View(model);
         }
 
     }

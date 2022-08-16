@@ -27,11 +27,19 @@ namespace MonitoringProj2._3
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // Updated 3/25/2022, Changed DbContext to MySQL (MariaDB on Raspberry PI) --Austin
         public void ConfigureServices(IServiceCollection services)
         {
+            // Set server version for MariaDB
+            var serverVersion = new MySqlServerVersion(new Version(10, 5, 12));
+
+            // Get Connection string for DbContext from Appsettings.json using Default Connection
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            //Add DbContext to services w/ MariaDB connection string and server version.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(connectionString, serverVersion));
+        
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

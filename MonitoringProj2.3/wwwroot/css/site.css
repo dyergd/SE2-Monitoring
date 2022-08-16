@@ -7,9 +7,17 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+#admin{
+    background-color: dimgrey !important;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
+}
+
+#over {
+    color:#3685de5e !important;
 }
 
 .btn-primary {

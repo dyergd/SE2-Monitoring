@@ -3,6 +3,8 @@ Team Project I was apart of for my Software Engineering 2 Class.
 
 This application pulled data from our sister teams api. We then took this data and stored it in our database. We performed different analytical tasks on the data and provided our sister team with a web interface to view the data.
 
+Included is the relevant code we used to create our API so our sister could retrieve any of the data we are creating.
+
 *Secrets like passwords and connection strings may still be present in the project. All services used to host the project have been deleted so any sensitive information is no longer relevant.*
 
 Our team provided our sister team with market basket analysis of their items, provided individual item sales data, and provided visit data. 

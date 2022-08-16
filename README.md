@@ -4,4 +4,4 @@ School Project for software engineering 2. Monitors a DB through an API and retr
 
 
 
-*secrets like passwords and connection strings may still be present in the project. All services used to host the project have been deleted so the information is no longer prevalent*
+*secrets like passwords and connection strings may still be present in the project. All services used to host the project have been deleted so any lingering information is no longer prevalent*

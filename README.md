@@ -5,8 +5,6 @@ This application pulled data from our sister teams api. We then took this data a
 
 Included is the relevant code we used to create our API so our sister could retrieve any of the data we are creating.
 
-*Secrets like passwords and connection strings may still be present in the project. All services used to host the project have been deleted so any sensitive information is no longer relevant.*
-
 Our team provided our sister team with market basket analysis of their items, provided individual item sales data, and provided visit data. 
 
 The individual sales data included statistics like the average cost, the day the item is most likely to be sold, the month most likely to be sold, and the total amount sold. The visit data included items like IP addresses, device sources, and the time and date the visit took place.
